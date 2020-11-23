@@ -13,6 +13,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 pipenv==2020.8.13
+psycopg2-binary==2.8.6
 pycosat==0.6.3
 requests==2.24.0
 ruamel.yaml==0.16.12
