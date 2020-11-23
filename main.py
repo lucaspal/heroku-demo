@@ -1,16 +1,24 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from dataclasses import dataclass
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+env_name = os.getenv('environment') or 'local'
+
+if env_name == 'production':
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+
 db = SQLAlchemy(app)
 
 db.create_all()
 
 
+@dataclass
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=False, nullable=True)
@@ -41,6 +49,12 @@ def create_user():
         print(e)
 
     return 'ok'
+
+
+@app.route('/users')
+def get_users():
+    users = User.query.all()
+    return jsonify(all_users=users)
 
 
 if __name__ == '__main__':
