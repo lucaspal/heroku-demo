@@ -34,7 +34,7 @@ class User(db.Model):
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return 'Hello, World this is a demo about interesting stuff!'
 
 
 @app.route('/environment')
